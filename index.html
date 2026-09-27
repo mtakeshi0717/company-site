@@ -1,0 +1,529 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>松村優のポケモン・ワールド</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --ground: #F2F3EC;
+    --surface: #FFFFFF;
+    --ink: #1D261E;
+    --muted: #5A6758;
+    --line: #D6DACB;
+    --accent: #E4B400;
+    --accent-ink: #1D261E;
+    --accent-text: #8A6A00;
+    --lcd: #C3CE9E;
+    --lcd-ink: #26331C;
+    --lcd-dim: #8E9C6C;
+    --shell: #3B4140;
+    --shell-hi: #4C5351;
+    --display: "DotGothic16", "Hiragino Kaku Gothic ProN", "Yu Gothic", monospace;
+    --body: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #131914;
+      --surface: #1B231C;
+      --ink: #E6EBDD;
+      --muted: #98A591;
+      --line: #2E3A2F;
+      --accent: #E8BE1C;
+      --accent-ink: #131914;
+      --accent-text: #E8BE1C;
+      --shell: #2A2F2E;
+      --shell-hi: #373D3B;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #131914;
+    --surface: #1B231C;
+    --ink: #E6EBDD;
+    --muted: #98A591;
+    --line: #2E3A2F;
+    --accent: #E8BE1C;
+    --accent-ink: #131914;
+    --accent-text: #E8BE1C;
+    --shell: #2A2F2E;
+    --shell-hi: #373D3B;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation: none !important; transition: none !important; } }
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 16px;
+    line-height: 1.8;
+    padding-inline: 20px;
+  }
+  .wrap { max-width: 1080px; margin-inline: auto; }
+  a { color: inherit; }
+  :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  h1, h2, h3 { text-wrap: balance; line-height: 1.35; margin: 0; }
+
+  /* header */
+  .site-header {
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 10;
+    background: var(--ground);
+    border-bottom: 1px solid var(--line);
+    margin-inline: -20px;
+    padding-inline: 20px;
+  }
+  .site-header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 12px; flex-wrap: wrap; }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 700; }
+  .brand-mark {
+    width: 30px; height: 30px; display: grid; place-items: center;
+    background: var(--lcd); color: var(--lcd-ink);
+    font-family: var(--display); font-size: 17px; border-radius: 4px;
+    box-shadow: inset 0 0 0 2px var(--lcd-ink);
+  }
+  .site-nav { display: flex; gap: 20px; flex-wrap: wrap; font-size: 14px; }
+  .site-nav a { text-decoration: none; color: var(--muted); }
+  .site-nav a:hover { color: var(--ink); }
+
+  /* hero */
+  .hero { display: grid; grid-template-columns: 1.05fr 1fr; gap: 48px; align-items: center; padding-block: 64px 72px; }
+  .eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0 0 16px; }
+  .hero h1 { font-family: var(--display); font-weight: 400; font-size: clamp(34px, 5.2vw, 56px); line-height: 1.3; letter-spacing: .02em; }
+  .hero h1 mark { background: linear-gradient(transparent 62%, var(--accent) 62%); color: inherit; padding-inline: 2px; }
+  .hero p.lead { max-width: 32em; color: var(--muted); margin: 24px 0 32px; }
+  .btn {
+    display: inline-block; text-decoration: none; font-weight: 700; font-size: 15px;
+    padding: 12px 22px; border-radius: 6px; border: 2px solid var(--ink);
+    background: var(--accent); color: var(--accent-ink); cursor: pointer; font-family: var(--body);
+  }
+  .btn.ghost { background: transparent; color: var(--ink); }
+  .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  /* handheld */
+  .device {
+    background: var(--shell);
+    border-radius: 14px 14px 40px 14px;
+    padding: 22px 22px 26px;
+    box-shadow: inset 0 2px 0 var(--shell-hi), 0 18px 40px -20px rgba(0,0,0,.45);
+    max-width: 460px; width: 100%; justify-self: center;
+  }
+  .device-top { display: flex; justify-content: space-between; align-items: center; color: #AEB6B2; font-family: var(--mono); font-size: 11px; letter-spacing: .1em; margin-bottom: 10px; }
+  .led { display: inline-flex; align-items: center; gap: 6px; }
+  .led::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #E0453A; box-shadow: 0 0 6px #E0453A; }
+  .lcd {
+    background: var(--lcd); color: var(--lcd-ink);
+    font-family: var(--display); border-radius: 4px; padding: 16px;
+    box-shadow: inset 0 0 0 3px #1c2418, inset 0 0 22px rgba(38,51,28,.25);
+    background-image: repeating-linear-gradient(0deg, rgba(38,51,28,.05) 0 1px, transparent 1px 3px);
+  }
+  .lcd-title { font-size: 13px; letter-spacing: .08em; display: flex; justify-content: space-between; border-bottom: 2px solid var(--lcd-ink); padding-bottom: 6px; margin-bottom: 12px; }
+  .lcd label { display: block; font-size: 12px; color: var(--lcd-ink); margin-bottom: 4px; opacity: .8; }
+  .lcd select {
+    width: 100%; font-family: var(--display); font-size: 15px; color: var(--lcd-ink);
+    background: transparent; border: 2px solid var(--lcd-ink); border-radius: 2px; padding: 4px 6px;
+    appearance: none; -webkit-appearance: none; cursor: pointer; color-scheme: light;
+    background-image: linear-gradient(45deg, transparent 50%, var(--lcd-ink) 50%), linear-gradient(135deg, var(--lcd-ink) 50%, transparent 50%);
+    background-position: calc(100% - 14px) 55%, calc(100% - 9px) 55%;
+    background-size: 5px 5px; background-repeat: no-repeat;
+  }
+  .lcd select option { background: #E4EACD; color: #26331C; }
+  .lcd-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .lcd-grid .full { grid-column: 1 / -1; }
+  .lcd-vs { text-align: center; font-size: 12px; margin: 8px 0 2px; color: var(--lcd-ink); opacity: .7; }
+  .lcd-result { margin-top: 14px; border: 2px solid var(--lcd-ink); padding: 10px 12px; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+  .lcd-mult { font-size: 38px; line-height: 1; font-variant-numeric: tabular-nums; }
+  .lcd-msg { font-size: 14px; text-align: right; }
+  .lcd-msg .cursor { display: inline-block; animation: blink 1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .device-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 18px; }
+  .dpad { width: 58px; height: 58px; position: relative; }
+  .dpad::before, .dpad::after { content: ""; position: absolute; background: #1D2120; border-radius: 3px; }
+  .dpad::before { left: 20px; top: 0; width: 18px; height: 58px; }
+  .dpad::after { top: 20px; left: 0; width: 58px; height: 18px; }
+  .ab { display: flex; gap: 12px; transform: rotate(-22deg); }
+  .ab span { width: 30px; height: 30px; border-radius: 50%; background: #8E2F4E; display: grid; place-items: center; color: #d9b7c2; font-family: var(--mono); font-size: 11px; box-shadow: inset 0 -3px 0 rgba(0,0,0,.3); }
+  .device-caption { text-align: center; font-size: 13px; color: var(--muted); margin-top: 12px; }
+
+  /* sections */
+  section.block { padding-block: 72px; border-top: 1px solid var(--line); }
+  .section-head { display: grid; grid-template-columns: 220px 1fr; gap: 32px; margin-bottom: 40px; }
+  .section-head h2 { font-family: var(--display); font-weight: 400; font-size: clamp(26px, 3.4vw, 34px); }
+  .section-head p { margin: 0; color: var(--muted); max-width: 36em; }
+
+  .products { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .product { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 24px; display: flex; flex-direction: column; gap: 12px; }
+  .product .tag { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent-text); }
+  .product h3 { font-size: 20px; }
+  .product p { margin: 0; color: var(--muted); font-size: 15px; }
+  .product .spec { margin-top: auto; padding-top: 14px; border-top: 1px dashed var(--line); font-family: var(--mono); font-size: 13px; font-variant-numeric: tabular-nums; display: flex; justify-content: space-between; gap: 8px; }
+  .product .spec b { font-weight: 500; }
+
+  .values { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  .value h3 { font-size: 18px; margin-bottom: 8px; }
+  .value p { margin: 0; color: var(--muted); font-size: 15px; }
+  .value .kana { font-family: var(--display); font-size: 42px; line-height: 1; color: var(--accent-text); display: block; margin-bottom: 12px; }
+
+  .company { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+  .facts { width: 100%; border-collapse: collapse; font-size: 15px; }
+  .facts th, .facts td { text-align: left; vertical-align: top; padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .facts th { width: 7.5em; font-weight: 500; color: var(--muted); padding-right: 16px; }
+  .facts td { font-variant-numeric: tabular-nums; }
+
+  .timeline { list-style: none; margin: 0; padding: 0; border-left: 2px solid var(--ink); }
+  .timeline li { position: relative; padding: 0 0 22px 22px; }
+  .timeline li::before { content: ""; position: absolute; left: -7px; top: 8px; width: 12px; height: 12px; background: var(--accent); border: 2px solid var(--ink); }
+  .timeline time { display: block; font-family: var(--mono); font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .timeline li:last-child { padding-bottom: 0; }
+
+  .careers { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .job { border: 2px solid var(--ink); border-radius: 8px; padding: 22px 24px; display: flex; flex-direction: column; gap: 8px; background: var(--surface); }
+  .job h3 { font-size: 18px; }
+  .job p { margin: 0; color: var(--muted); font-size: 15px; }
+  .job .meta { font-family: var(--mono); font-size: 12px; color: var(--muted); display: flex; gap: 14px; flex-wrap: wrap; }
+
+  .contact { display: grid; grid-template-columns: 1fr 1.3fr; gap: 48px; }
+  .contact-info p { color: var(--muted); margin: 0 0 16px; }
+  .contact-info dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 6px 16px; font-size: 15px; }
+  .contact-info dt { color: var(--muted); }
+  .contact-info dd { margin: 0; font-family: var(--mono); user-select: all; }
+  form { display: grid; gap: 16px; }
+  .field { display: grid; gap: 6px; }
+  .field label { font-size: 14px; font-weight: 500; }
+  input, select.plain, textarea {
+    font: inherit; font-size: 15px; color: var(--ink); background: var(--surface);
+    border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; width: 100%;
+  }
+  input:focus, select.plain:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: 0; border-color: var(--ink); }
+  textarea { min-height: 120px; resize: vertical; }
+  .form-status { font-size: 14px; margin: 0; min-height: 1.5em; }
+  .form-status.ok { color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--accent); padding: 10px 12px; border-radius: 4px; }
+
+  footer { border-top: 1px solid var(--line); padding-block: 32px 40px; font-size: 13px; color: var(--muted); }
+  footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  footer p { margin: 0; max-width: 46em; }
+
+  @media (max-width: 880px) {
+    .hero, .company, .contact { grid-template-columns: 1fr; gap: 40px; }
+    .hero { padding-block: 40px 56px; }
+    .section-head { grid-template-columns: 1fr; gap: 12px; }
+    .products, .values { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    body { padding-inline: 16px; }
+    .site-header { margin-inline: -16px; padding-inline: 16px; }
+    .site-nav { gap: 14px; font-size: 13px; }
+    .careers { grid-template-columns: 1fr; }
+    section.block { padding-block: 56px; }
+    .device { padding: 16px 16px 20px; }
+    .lcd-mult { font-size: 30px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="#top"><span class="brand-mark" aria-hidden="true">優</span>松村優のポケモン・ワールド</a>
+    <nav class="site-nav" aria-label="メインメニュー">
+      <a href="#products">プロダクト</a>
+      <a href="#about">会社概要</a>
+      <a href="#careers">採用情報</a>
+      <a href="#contact">お問い合わせ</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" id="top">
+
+  <section class="hero">
+    <div>
+      <p class="eyebrow">Software for Trainers · Since 2019</p>
+      <h1>冒険の「次の一手」を、<mark>ソフトウエア</mark>で速くする。</h1>
+      <p class="lead">松村優のポケモン・ワールドは、ポケモンを遊ぶトレーナーのための道具をつくる小さなソフトウエア会社です。タイプ相性の確認、育成の記録、図鑑の埋まり具合。ゲームの外で迷う時間を減らし、遊ぶ時間を増やします。</p>
+      <div class="btn-row">
+        <a class="btn" href="#products">プロダクトを見る</a>
+        <a class="btn ghost" href="#contact">お問い合わせ</a>
+      </div>
+    </div>
+
+    <div>
+      <div class="device" role="group" aria-label="タイプ相性チェッカーのデモ">
+        <div class="device-top"><span class="led">POWER</span><span>TYPE CHECKER v3.2</span></div>
+        <div class="lcd">
+          <div class="lcd-title"><span>タイプあいしょう</span><span>▶ DEMO</span></div>
+          <div class="lcd-grid">
+            <div class="full">
+              <label for="atk">わざのタイプ</label>
+              <select id="atk"></select>
+            </div>
+          </div>
+          <div class="lcd-vs">▼ あいて ▼</div>
+          <div class="lcd-grid">
+            <div>
+              <label for="def1">タイプ1</label>
+              <select id="def1"></select>
+            </div>
+            <div>
+              <label for="def2">タイプ2</label>
+              <select id="def2"></select>
+            </div>
+          </div>
+          <div class="lcd-result" aria-live="polite">
+            <span class="lcd-mult" id="mult">×2</span>
+            <span class="lcd-msg" id="msg">こうかは ばつぐんだ！<span class="cursor">▼</span></span>
+          </div>
+        </div>
+        <div class="device-bottom">
+          <span class="dpad" aria-hidden="true"></span>
+          <span class="ab" aria-hidden="true"><span>B</span><span>A</span></span>
+        </div>
+      </div>
+      <p class="device-caption">自社プロダクト「タイプ相性チェッカー」をそのまま動かせます。</p>
+    </div>
+  </section>
+
+  <section class="block" id="products">
+    <div class="section-head">
+      <h2>プロダクト</h2>
+      <p>3つのアプリはすべて自社開発です。対戦前の確認から、長い育成の記録、図鑑の完成まで、冒険の段階ごとに使える道具をそろえています。</p>
+    </div>
+    <div class="products">
+      <article class="product">
+        <span class="tag">Battle</span>
+        <h3>タイプ相性チェッカー</h3>
+        <p>全18タイプ、複合タイプを含む相性をワンタップで表示。こうかばつぐん（×2・×4）から「こうかがない」（×0）まで、対戦中でも一瞬で確認できます。</p>
+        <div class="spec"><span>対応タイプ</span><b>18 × 171 組</b></div>
+      </article>
+      <article class="product">
+        <span class="tag">Training</span>
+        <h3>育成メモ</h3>
+        <p>努力値の振り分けを入力すると、合計510・1項目252の上限を自動で検算。性格補正と個体値もあわせて記録し、育成の途中経過を残せます。</p>
+        <div class="spec"><span>定番配分</span><b>252 / 252 / 4</b></div>
+      </article>
+      <article class="product">
+        <span class="tag">Collection</span>
+        <h3>図鑑コンプリート・トラッカー</h3>
+        <p>全国図鑑の登録状況を地方ごとに一覧化。まだ出会っていないポケモンと、進化・交換が必要なポケモンを分けて表示します。</p>
+        <div class="spec"><span>収録範囲</span><b>No.0001–1025</b></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="block" id="values">
+    <div class="section-head">
+      <h2>わたしたちの約束</h2>
+      <p>ゲームをいちばん楽しめるのは、ゲームそのものの中です。わたしたちのアプリは、その時間を邪魔しないことを第一に考えています。</p>
+    </div>
+    <div class="values">
+      <div class="value">
+        <span class="kana" aria-hidden="true">速</span>
+        <h3>3秒で答えを出す</h3>
+        <p>起動から答えの表示まで3秒以内。対戦のターン中に開いても間に合う速さを基準に設計しています。</p>
+      </div>
+      <div class="value">
+        <span class="kana" aria-hidden="true">正</span>
+        <h3>データを疑い、確かめる</h3>
+        <p>相性表や種族データは、新作が出るたびに社内で全件を照合します。数字の誤りは最優先で修正します。</p>
+      </div>
+      <div class="value">
+        <span class="kana" aria-hidden="true">静</span>
+        <h3>広告で画面をふさがない</h3>
+        <p>画面を覆う広告は入れません。月額の有料プランと、趣味の開発者からの支援で運営しています。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="about">
+    <div class="section-head">
+      <h2>会社概要</h2>
+      <p>社員18名。全員がトレーナーで、全員がエンジニアかデザイナーです。</p>
+    </div>
+    <div class="company">
+      <table class="facts">
+        <tbody>
+          <tr><th scope="row">会社名</th><td>株式会社 松村優のポケモン・ワールド</td></tr>
+          <tr><th scope="row">代表取締役</th><td>松村 優</td></tr>
+          <tr><th scope="row">設立</th><td>2019年4月1日</td></tr>
+          <tr><th scope="row">資本金</th><td>1,000万円</td></tr>
+          <tr><th scope="row">従業員数</th><td>18名（2026年9月時点）</td></tr>
+          <tr><th scope="row">所在地</th><td>〒101-0021 東京都千代田区外神田 1-2-3 ポケットビル 5F</td></tr>
+          <tr><th scope="row">事業内容</th><td>ゲーム攻略支援アプリの企画・開発・運営</td></tr>
+        </tbody>
+      </table>
+      <div>
+        <h3 style="font-size:18px;margin-bottom:20px;">沿革</h3>
+        <ol class="timeline">
+          <li><time datetime="2019-04">2019.04</time>松村優が個人開発の相性表アプリを法人化し、会社を設立</li>
+          <li><time datetime="2020-07">2020.07</time>「タイプ相性チェッカー」正式版をリリース</li>
+          <li><time datetime="2022-11">2022.11</time>「育成メモ」をリリース。有料プランを開始</li>
+          <li><time datetime="2024-03">2024.03</time>「図鑑コンプリート・トラッカー」をリリース</li>
+          <li><time datetime="2026-06">2026.06</time>3アプリの累計ダウンロード数が120万件を突破</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="careers">
+    <div class="section-head">
+      <h2>採用情報</h2>
+      <p>好きなゲームを、もっと遊びやすくする仕事です。プレイ歴よりも、遊ぶ人の困りごとに気づけることを大切にしています。</p>
+    </div>
+    <div class="careers">
+      <article class="job">
+        <h3>モバイルアプリエンジニア</h3>
+        <p>iOS / Android の両アプリを Flutter で開発します。オフラインでも動く相性計算エンジンの改善が主な担当です。</p>
+        <div class="meta"><span>正社員</span><span>リモート可</span><span>経験3年以上</span></div>
+      </article>
+      <article class="job">
+        <h3>ゲームデータ・エディター</h3>
+        <p>新作の発売にあわせて、種族値・わざ・特性のデータを調査し、アプリに反映します。正確さへのこだわりが必要な仕事です。</p>
+        <div class="meta"><span>正社員 / 契約</span><span>週3日〜</span><span>未経験可</span></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="block" id="contact">
+    <div class="section-head">
+      <h2>お問い合わせ</h2>
+      <p>アプリの不具合、取材、採用についてのご連絡はこちらから。通常2営業日以内に返信します。</p>
+    </div>
+    <div class="contact">
+      <div class="contact-info">
+        <p>フォーム以外でのご連絡は、以下の窓口をご利用ください。</p>
+        <dl>
+          <dt>メール</dt><dd>hello@pokemon-world.example</dd>
+          <dt>電話</dt><dd>03-0000-0000</dd>
+          <dt>受付</dt><dd>平日 10:00–18:00</dd>
+        </dl>
+      </div>
+      <form id="contact-form" novalidate>
+        <div class="field">
+          <label for="name">お名前</label>
+          <input id="name" name="name" autocomplete="name" required placeholder="例：サトシ ヤマダ">
+        </div>
+        <div class="field">
+          <label for="email">メールアドレス</label>
+          <input id="email" name="email" type="email" autocomplete="email" required placeholder="you@example.com">
+        </div>
+        <div class="field">
+          <label for="topic">お問い合わせの種類</label>
+          <select class="plain" id="topic" name="topic">
+            <option>アプリの不具合・ご要望</option>
+            <option>取材・協業</option>
+            <option>採用について</option>
+            <option>その他</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="message">内容</label>
+          <textarea id="message" name="message" required placeholder="どのアプリの、どの画面で起きたかを書いていただけると助かります。"></textarea>
+        </div>
+        <div><button class="btn" type="submit">送信する</button></div>
+        <p class="form-status" id="form-status" role="status"></p>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>「松村優のポケモン・ワールド」は架空の会社です。本サイトに登場する社名・人物・住所・連絡先・数値はすべて創作であり、任天堂、株式会社ポケモン、ゲームフリーク、クリーチャーズとは一切関係ありません。</p>
+    <p>© 2026 Matsumura Yu's Pokémon World</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var TYPES = ["ノーマル","ほのお","みず","でんき","くさ","こおり","かくとう","どく","じめん","ひこう","エスパー","むし","いわ","ゴースト","ドラゴン","あく","はがね","フェアリー"];
+  // attacker -> [super effective], [not very effective], [no effect]
+  var CHART = {
+    "ノーマル": [[], ["いわ","はがね"], ["ゴースト"]],
+    "ほのお": [["くさ","こおり","むし","はがね"], ["ほのお","みず","いわ","ドラゴン"], []],
+    "みず": [["ほのお","じめん","いわ"], ["みず","くさ","ドラゴン"], []],
+    "でんき": [["みず","ひこう"], ["でんき","くさ","ドラゴン"], ["じめん"]],
+    "くさ": [["みず","じめん","いわ"], ["ほのお","くさ","どく","ひこう","むし","ドラゴン","はがね"], []],
+    "こおり": [["くさ","じめん","ひこう","ドラゴン"], ["ほのお","みず","こおり","はがね"], []],
+    "かくとう": [["ノーマル","こおり","いわ","あく","はがね"], ["どく","ひこう","エスパー","むし","フェアリー"], ["ゴースト"]],
+    "どく": [["くさ","フェアリー"], ["どく","じめん","いわ","ゴースト"], ["はがね"]],
+    "じめん": [["ほのお","でんき","どく","いわ","はがね"], ["くさ","むし"], ["ひこう"]],
+    "ひこう": [["くさ","かくとう","むし"], ["でんき","いわ","はがね"], []],
+    "エスパー": [["かくとう","どく"], ["エスパー","はがね"], ["あく"]],
+    "むし": [["くさ","エスパー","あく"], ["ほのお","かくとう","どく","ひこう","ゴースト","はがね","フェアリー"], []],
+    "いわ": [["ほのお","こおり","ひこう","むし"], ["かくとう","じめん","はがね"], []],
+    "ゴースト": [["エスパー","ゴースト"], ["あく"], ["ノーマル"]],
+    "ドラゴン": [["ドラゴン"], ["はがね"], ["フェアリー"]],
+    "あく": [["エスパー","ゴースト"], ["かくとう","あく","フェアリー"], []],
+    "はがね": [["こおり","いわ","フェアリー"], ["ほのお","みず","でんき","はがね"], []],
+    "フェアリー": [["かくとう","ドラゴン","あく"], ["ほのお","どく","はがね"], []]
+  };
+
+  function factor(atk, def) {
+    var row = CHART[atk];
+    if (row[2].indexOf(def) >= 0) return 0;
+    if (row[0].indexOf(def) >= 0) return 2;
+    if (row[1].indexOf(def) >= 0) return 0.5;
+    return 1;
+  }
+
+  var atk = document.getElementById("atk");
+  var d1 = document.getElementById("def1");
+  var d2 = document.getElementById("def2");
+  var multEl = document.getElementById("mult");
+  var msgEl = document.getElementById("msg");
+
+  function fill(sel, list, withNone) {
+    if (withNone) sel.add(new Option("ー なし ー", ""));
+    list.forEach(function (t) { sel.add(new Option(t, t)); });
+  }
+  fill(atk, TYPES); fill(d1, TYPES); fill(d2, TYPES, true);
+  atk.value = "でんき"; d1.value = "みず"; d2.value = "ひこう";
+
+  function label(m) {
+    if (m === 0) return "こうかが ないようだ…";
+    if (m >= 4) return "こうかは ちょう ばつぐんだ！";
+    if (m >= 2) return "こうかは ばつぐんだ！";
+    if (m < 1) return "こうかは いまひとつの ようだ";
+    return "ふつうの ダメージ";
+  }
+  function fmt(m) { return "×" + (m === 0.25 ? "¼" : m === 0.5 ? "½" : m); }
+
+  function update() {
+    var m = factor(atk.value, d1.value);
+    if (d2.value && d2.value !== d1.value) m *= factor(atk.value, d2.value);
+    multEl.textContent = fmt(m);
+    msgEl.innerHTML = "";
+    msgEl.appendChild(document.createTextNode(label(m)));
+    var c = document.createElement("span"); c.className = "cursor"; c.textContent = "▼";
+    msgEl.appendChild(c);
+  }
+  [atk, d1, d2].forEach(function (s) { s.addEventListener("change", update); });
+  update();
+
+  var form = document.getElementById("contact-form");
+  var status = document.getElementById("form-status");
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var f = form.elements;
+    var name = f["name"].value.trim(), email = f["email"].value.trim(), msg = f["message"].value.trim();
+    status.className = "form-status";
+    if (!name || !email || !msg) { status.textContent = "お名前・メールアドレス・内容をすべて入力してください。"; return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { status.textContent = "メールアドレスの形式を確認してください（例：you@example.com）。"; return; }
+    status.className = "form-status ok";
+    status.textContent = name + " さん、お問い合わせを受け付けました。※架空の会社のデモサイトのため、実際には送信されていません。";
+    form.reset();
+  });
+})();
+</script>
+</body>
+</html>
